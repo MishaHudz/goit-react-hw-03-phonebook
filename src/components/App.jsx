@@ -11,6 +11,18 @@ export class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const storageDate = JSON.parse(localStorage.getItem('contacts'));
+    if (!storageDate) return;
+    this.setState({ contacts: storageDate });
+  }
+
+  componentDidUpdate(_, prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
   addUser = data => {
     if (
       this.state.contacts.find(
